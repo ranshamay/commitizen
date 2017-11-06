@@ -3,3 +3,4 @@ include README.rst
 include LICENSE
 
 global-exclude *.py[cod] __pycache__ *.so *.dylib
+include makefile
