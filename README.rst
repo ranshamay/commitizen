@@ -14,7 +14,7 @@ Commitizen
     :alt: PyPI Package latest release
     :target: https://pypi.org/project/commitizen/
 
-..  image:: https://img.shields.io/pypi/pyversions/commitizen.svg?style=flat-square
+..  image:: https://img.shields.io/badge/python-2.7-blue.svg?style=flat-square
     :alt: Supported versions
     :target: https://pypi.org/project/commitizen/
 
