@@ -2,7 +2,7 @@
 Commitizen
 =============
 
-    Python 3 command line utility to standardize commit messages
+    Python 2 command line utility to standardize commit messages
 
 
 
