@@ -1,12 +1,12 @@
 import os
 from commitizen.cz.cz_base import BaseCommitizen
-
+import re
+import textwrap
 
 __all__ = ['ConventionalChangelogCz']
 
 
 class ConventionalChangelogCz(BaseCommitizen):
-
     def questions(self):
         questions = [
             {
@@ -57,36 +57,59 @@ class ConventionalChangelogCz(BaseCommitizen):
             {
                 'type': 'input',
                 'name': 'scope',
-                'message': ('Scope. Could be anything specifying place of the '
-                            'commit change (users, db, poll):\n')
+                'message': ('What is the scope of this change (e.g. component or file name)? (press enter to skip)\n')
             },
             {
                 'type': 'input',
                 'name': 'subject',
-                'message': ('Subject. Concise description of the changes. '
-                            'Imperative, lower case and no final dot:\n')
+                'message': ('Write a short, imperative tense description of the change:\n')
             },
             {
                 'type': 'input',
                 'name': 'body',
-                'message': ('Body. Motivation for the change and contrast this '
-                            'with previous behavior:\n')
+                'message': ('Provide a longer description of the change: (press enter to skip)\n')
             },
             {
-                'type': 'input',
-                'name': 'footer',
-                'message': ('Footer. Information about Breaking Changes and '
-                            'reference issues that this commit closes:\n')
+                'type': 'confirm',
+                'name': 'isBreaking',
+                'message': 'Are there any breaking changes?',
+                'default': False
+            },
+            {
+                "type": "input",
+                "name": "breaking",
+                "message": "Describe the breaking changes:\n",
+                "when": self.is_breaking_answers
+            },
+            {
+                "type": 'confirm',
+                "name": 'isIssueAffected',
+                "message": 'Does this change affect any open issues?',
+                "default": False
+            },
+            {
+                "type": 'input',
+                "name": 'issues',
+                "message": 'Add issue refere nces (e.g. "fix #123", "re #123".):\n',
+                "when": self.is_issued_affected
             }
         ]
         return questions
 
     def message(self, answers):
+        wrapper = textwrap.TextWrapper(width=100)
         prefix = answers['prefix']
         scope = answers['scope']
+        issues = ' '.join(wrapper.wrap(answers.get('issues'))) if 'issues' in answers else ''
         subject = answers['subject']
         body = answers['body']
-        footer = answers['footer']
+        # footer = answers['footer']
+        breaking = answers['breaking'] if 'breaking' in answers else ''
+        if len(breaking) > 0:
+            breaking = 'BREAKING CHANGE: ' + re.sub(r'/^BREAKING CHANGE: /', '', breaking)
+        breaking = ' '.join(wrapper.wrap(breaking))
+        # breaking = wrapper.fill(breaking)
+        footer = '{}\n\n'.format(breaking)
         message = ''
 
         if prefix:
@@ -94,12 +117,15 @@ class ConventionalChangelogCz(BaseCommitizen):
             if scope:
                 message += '({0})'.format(scope)
             message += ': '
+        if issues:
+            message += '{} '.format(issues)
         if subject:
             message += '{0}'.format(subject)
         if body:
             message += '\n\n{0}'.format(body)
         if footer:
             message += '\n\n{0}'.format(footer)
+        print message
         return message
 
     def example(self):
@@ -124,3 +150,9 @@ class ConventionalChangelogCz(BaseCommitizen):
         with open(filepath, 'r') as f:
             content = f.read()
         return content
+
+    def is_breaking_answers(self, answers):
+        return answers.get('isBreaking')
+
+    def is_issued_affected(self, answers):
+        return answers.get('isIssueAffected')

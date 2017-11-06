@@ -10,8 +10,8 @@ from whaaaaat import style_from_dict, Token, prompt
 logger = logging.getLogger(__name__)
 
 
-class BaseCommitizen(metaclass=ABCMeta):
-
+class BaseCommitizen(object):
+    __metaclass__ = ABCMeta
     style = style_from_dict({
         Token.Separator: '#6C6C6C',
         Token.QuestionMark: '#FF9D00 bold',

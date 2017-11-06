@@ -2,7 +2,7 @@ import os
 import io
 import logging
 import argparse
-from pathlib import Path
+# from pathlib import Path
 from configparser import RawConfigParser
 from commitizen import (registered, run, set_commiter, show_example,
                         show_info, show_schema)
@@ -33,7 +33,10 @@ def get_parser(config):
     lscz = subparser.add_parser('ls', help='show available commitizens')
     lscz.set_defaults(func=registered)
 
-    commit = subparser.add_parser('commit', aliases=['c'],
+    # commit = subparser.add_parser('commit', aliases=['c'],
+    #                               help='create new commit')
+
+    commit = subparser.add_parser('commit',
                                   help='create new commit')
     commit.set_defaults(func=run)
 
@@ -55,7 +58,7 @@ def load_cfg():
     }
     config = RawConfigParser('')
 
-    home = str(Path.home())
+    home = str(os.path.expanduser("~"))
     config_file = '.cz'
 
     # load cfg from home folder
