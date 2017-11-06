@@ -14,9 +14,9 @@ from setuptools import find_packages, setup, Command
 # Package meta-data.
 NAME = 'commitizen'
 DESCRIPTION = 'Python commitizen client tool.'
-URL = 'https://github.com/woile/commitizen'
-EMAIL = 'santiwilly@gmail.com'
-AUTHOR = 'Santiago Fraire'
+URL = 'https://github.com/ranshamay89/commitizen'
+EMAIL = 'ran@panorays.com'
+AUTHOR = 'Ran Shamay'
 REQUIRED = [
     'delegator.py', 'whaaaaat'
 ]
@@ -58,9 +58,6 @@ class UploadCommand(Command):
         self.status('Building Source and Wheel (universal) distribution…')
         os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
 
-        self.status('Uploading the package to PyPi via Twine…')
-        os.system('twine upload dist/*')
-
         sys.exit()
 
 
@@ -87,9 +84,5 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: Implementation :: CPython'
-    ],
-    # $ setup.py publish support.
-    cmdclass={
-        'upload': UploadCommand,
-    },
+    ]
 )
