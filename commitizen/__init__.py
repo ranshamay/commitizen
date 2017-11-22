@@ -3,7 +3,6 @@ import logging.config
 from commitizen.cz import registry
 from commitizen.cz.cz_base import BaseCommitizen  # noqa
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -72,4 +71,5 @@ def show_schema(args):
 
 def run(args):
     _commiter = commiter()
-    _commiter.run()
+    change_type = _commiter.run()
+    return change_type

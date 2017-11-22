@@ -10,7 +10,7 @@ import os
 from setuptools import find_packages, setup
 
 # Package meta-data.
-NAME = 'commitizen-py2.7'
+NAME = 'commitizen2'
 WORKDIR = 'commitizen'
 DESCRIPTION = 'Python commitizen client tool.'
 URL = 'https://github.com/ranshamay89/commitizen'
@@ -30,7 +30,6 @@ with open(os.path.join(here, WORKDIR, '__version__.py')) as f:
     exec (f.read(), about)
 
 setup(
-
     name=NAME,
     version=about['__version__'],
     description=DESCRIPTION,
@@ -39,7 +38,7 @@ setup(
     author=AUTHOR,
     author_email=EMAIL,
     entry_points={
-        'console_scripts': ['cz=commitizen.cli:main'],
+        'console_scripts': ['git-cz=commitizen.cli:main'],
     },
     install_requires=REQUIRED,
     zip_safe=True,

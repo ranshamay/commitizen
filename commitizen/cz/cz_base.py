@@ -6,7 +6,6 @@ from abc import ABCMeta, abstractmethod
 from tempfile import NamedTemporaryFile
 from whaaaaat import style_from_dict, Token, prompt
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -87,7 +86,7 @@ class BaseCommitizen(object):
         questions = self.questions()
         answers = prompt(questions, style=self.style)
         logger.debug('Answers:\n %s', answers)
-        m = self.message(answers)
+        m,change_type = self.message(answers)
         logger.debug('Commit message generated:\n %s', m)
 
         c = self.commit(m)
@@ -99,4 +98,4 @@ class BaseCommitizen(object):
         if 'nothing added' not in c.out:
             logger.info('Commit successful!')
 
-        sys.exit(0)
+        return change_type

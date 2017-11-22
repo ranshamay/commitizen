@@ -126,7 +126,7 @@ class ConventionalChangelogCz(BaseCommitizen):
         if footer:
             message += '\n\n{0}'.format(footer)
         print message
-        return message
+        return message, prefix
 
     def example(self):
         return (

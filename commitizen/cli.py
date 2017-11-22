@@ -2,11 +2,11 @@ import os
 import io
 import logging
 import argparse
+import sys
 # from pathlib import Path
 from configparser import RawConfigParser
 from commitizen import (registered, run, set_commiter, show_example,
                         show_info, show_schema)
-
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +85,21 @@ def load_cfg():
         defaults.update(dict(config.items("commitizen")))
 
     return defaults
+
+
+def cz(args):
+    sys.argv = [sys.argv[0]] + args
+
+    config = load_cfg()
+    parser = get_parser(config)
+    args = parser.parse_args()
+
+    if args.debug:
+        logging.getLogger('commitizen').setLevel(logging.DEBUG)
+
+    set_commiter(config.get('name'))
+    change_type = args.func(args)
+    return change_type
 
 
 def main():
